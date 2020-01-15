@@ -30,19 +30,31 @@ import org.forgerock.openam.auth.nodes.AccountLockoutConfig;
 import org.forgerock.openam.auth.nodes.AccountLockoutUtils;
 import org.forgerock.openam.auth.nodes.model.AccountLockout;
 import org.forgerock.util.i18n.PreferredLocales;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 @Node.Metadata(outcomeProvider = AccountLockoutCheckerDecisionNode.OutcomeProvider.class,
         configClass = AccountLockoutCheckerDecisionNode.Config.class)
 public class AccountLockoutCheckerDecisionNode implements Node {
 
-    final static String LOCKED_OUTCOME = "Locked";
-    final static String UNLOCKED_OUTCOME = "Unlocked";
+    private static final Logger logger = LoggerFactory.getLogger("amAuth");
+
+    private final static String LOCKED_OUTCOME = "Locked";
+    private final static String UNLOCKED_OUTCOME = "Unlocked";
+
+    private static final String BUNDLE = "org/forgerock/openam/auth/nodes/decision/AccountLockoutCheckerDecisionNode";
+    private static final String ACCOUNT_LOCKED_MSG_KEY = "account.locked";
+    private static final String ACCOUNT_LOCKED_WARNING_MSG_KEY = "account.lockWarning";
+
     private final Config config;
     private final AccountLockoutUtils utils;
+
     @Inject
     public AccountLockoutCheckerDecisionNode(@Assisted Config config, AccountLockoutUtils utils) {
         this.config = config;
@@ -53,22 +65,40 @@ public class AccountLockoutCheckerDecisionNode implements Node {
     public Action process(TreeContext context) throws NodeProcessException {
         try {
             AccountLockout accountLockout = utils.getAccountLockoutData(context, config.invalidAttemptsAttribute());
-            String outcome = isLockedOut(accountLockout, context) ? LOCKED_OUTCOME : UNLOCKED_OUTCOME;
-            return Action.goTo(outcome).build();
+            String outcome = isLockedOut(accountLockout) ? LOCKED_OUTCOME : UNLOCKED_OUTCOME;
+
+            ResourceBundle bundle = context.request.locales.getBundleInPreferredLocale(BUNDLE, getClass().getClassLoader());
+            JsonValue newSharedState = context.sharedState.copy();
+
+            // Update shared failure message
+            if (outcome.equals(LOCKED_OUTCOME)) {
+                // reset failed attempts if account is locked
+                logger.debug("Account is locked, Resetting failed attempts counter");
+                utils.setAccountLockoutData(context, new AccountLockout(), config.invalidAttemptsAttribute());
+
+                // Set shared failure message
+                newSharedState.put(config.failureMessageAttr(), bundle.getString(ACCOUNT_LOCKED_MSG_KEY));
+            } else if (outcome.equals(UNLOCKED_OUTCOME)) {
+
+                // Set warning message if warn counter has reached
+                if (accountLockout.getInvalidCount() >= config.warnCount()) {
+
+                    // Set shared failure message, replace placeholder with attempts left
+                    String message = MessageFormat.format(bundle.getString(ACCOUNT_LOCKED_WARNING_MSG_KEY), (config.lockoutCount() - accountLockout.getInvalidCount()));
+                    newSharedState.put(config.failureMessageAttr(), message);
+                }
+            }
+
+            logger.debug("one time password has been generated successfully");
+            return Action.goTo(outcome).replaceSharedState(newSharedState).build();
+
         } catch (Exception e) {
             throw new NodeProcessException(e);
         }
     }
 
-    private boolean isLockedOut(AccountLockout accountLockout, TreeContext context) throws Exception {
-        boolean accountLocked = accountLockout.getInvalidCount() >= config.lockoutCount();
-
-        // reset failed attempts if account is locked
-        if (accountLocked) {
-            utils.setAccountLockoutData(context, new AccountLockout(), config.invalidAttemptsAttribute());
-        }
-
-        return accountLocked;
+    private boolean isLockedOut(AccountLockout accountLockout) {
+        return accountLockout.getInvalidCount() >= config.lockoutCount();
     }
 
     public interface Config extends AccountLockoutConfig {
@@ -81,6 +111,11 @@ public class AccountLockoutCheckerDecisionNode implements Node {
         @Attribute(order = 300)
         default int warnCount() {
             return 3;
+        }
+
+        @Attribute(order = 400)
+        default String failureMessageAttr() {
+            return "failureMessageAttr";
         }
     }
 

@@ -20,6 +20,7 @@ package org.forgerock.openam.auth.nodes.decision;
 
 import org.forgerock.openam.auth.node.api.AbstractNodeAmPlugin;
 import org.forgerock.openam.auth.node.api.Node;
+import org.forgerock.openam.plugins.PluginException;
 
 import java.util.Collections;
 import java.util.Map;
@@ -29,7 +30,7 @@ import java.util.Map;
  */
 public class AccountLockoutCheckerDecisionNodePlugin extends AbstractNodeAmPlugin {
 
-    static private String currentVersion = "1.0.0";
+    static private String currentVersion = "2.0.0";
 
 
     @Override
@@ -41,6 +42,11 @@ public class AccountLockoutCheckerDecisionNodePlugin extends AbstractNodeAmPlugi
     @Override
     public String getPluginVersion() {
         return AccountLockoutCheckerDecisionNodePlugin.currentVersion;
+    }
+
+    @Override
+    public void upgrade(String fromVersion) throws PluginException {
+        pluginTools.upgradeAuthNode(AccountLockoutCheckerDecisionNode.class);
     }
 
 }

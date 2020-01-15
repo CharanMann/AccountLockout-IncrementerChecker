@@ -36,9 +36,11 @@ import javax.inject.Inject;
         configClass = AccountLockoutIncrementerNode.Config.class)
 public class AccountLockoutIncrementerNode extends SingleOutcomeNode {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountLockoutIncrementerNode.class);
+    private static final Logger logger = LoggerFactory.getLogger("amAuth");
+
     private final Config config;
     private final AccountLockoutUtils utils;
+
     @Inject
     public AccountLockoutIncrementerNode(@Assisted Config config, AccountLockoutUtils utils) {
         this.config = config;
@@ -69,7 +71,7 @@ public class AccountLockoutIncrementerNode extends SingleOutcomeNode {
 
         @Attribute(order = 200)
         default int failureInterval() {
-            return 30;
+            return 1800;
         }
     }
 

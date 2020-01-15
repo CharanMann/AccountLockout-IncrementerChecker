@@ -75,7 +75,7 @@ public class AccountLockoutUtils {
     }
 
     public boolean isWithinFailureDuration(AccountLockout accountLockout, int lockoutDuration) {
-        long startOfLockoutDuration = System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(lockoutDuration);
+        long startOfLockoutDuration = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(lockoutDuration);
 
         // If this is first account lockout attempt, then time comparison is not required
         if (accountLockout.getInvalidCount() == 0) {
