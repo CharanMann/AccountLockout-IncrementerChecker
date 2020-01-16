@@ -43,11 +43,9 @@ import java.util.ResourceBundle;
         configClass = AccountLockoutCheckerDecisionNode.Config.class)
 public class AccountLockoutCheckerDecisionNode implements Node {
 
+    final static String LOCKED_OUTCOME = "Locked";
+    final static String UNLOCKED_OUTCOME = "Unlocked";
     private static final Logger logger = LoggerFactory.getLogger("amAuth");
-
-    private final static String LOCKED_OUTCOME = "Locked";
-    private final static String UNLOCKED_OUTCOME = "Unlocked";
-
     private static final String BUNDLE = "org/forgerock/openam/auth/nodes/decision/AccountLockoutCheckerDecisionNode";
     private static final String ACCOUNT_LOCKED_MSG_KEY = "account.locked";
     private static final String ACCOUNT_LOCKED_WARNING_MSG_KEY = "account.lockWarning";
@@ -111,17 +109,17 @@ public class AccountLockoutCheckerDecisionNode implements Node {
 
         @Attribute(order = 200)
         default int lockoutCount() {
-            return 5;
+            return DEFAULT_LOCKOUT_COUNT;
         }
 
         @Attribute(order = 300)
         default int warnCount() {
-            return 3;
+            return DEFAULT_WARN_COUNT;
         }
 
         @Attribute(order = 400)
         default String failureMessageAttr() {
-            return "failureMessageAttr";
+            return DEFAULT_FAILURE_MESSAGE_ATTR;
         }
     }
 

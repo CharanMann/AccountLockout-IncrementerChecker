@@ -13,29 +13,25 @@
  * Header, with the fields enclosed by brackets [] replaced by your own identifying
  * information: "Portions copyright [year] [name of copyright owner]".
  *
- * AccountLockout-IncrementerChecker: Created by Charan Mann on 1/14/20 , 12:38 PM.
+ * AccountLockout-IncrementerChecker: Created by Charan Mann on 1/16/20 , 3:28 PM.
  */
 
 package org.forgerock.openam.auth.nodes;
 
-import org.forgerock.openam.annotations.sm.Attribute;
+import com.google.common.collect.ImmutableSet;
+import org.forgerock.openam.auth.nodes.model.AccountLockout;
+import org.forgerock.openam.auth.nodes.model.JsonBuilder;
 
-public interface AccountLockoutConfig {
+import java.util.Set;
 
-    String DEFAULT_INVALID_ATTEMPTS_ATTR = "sunAMAuthInvalidAttemptsData";
-    int DEFAULT_FAILURE_INTERVAL = 1800;
-    int DEFAULT_LOCKOUT_COUNT = 5;
-    int DEFAULT_WARN_COUNT = 3;
-    String DEFAULT_FAILURE_MESSAGE_ATTR = "failureMessageAttr";
+public class AccountLockoutTestUtils {
 
-    /**
-     * The user profile properties for storing invalid attempts
-     *
-     * @return
-     */
-    @Attribute(order = 100)
-    default String invalidAttemptsAttribute() {
-        return DEFAULT_INVALID_ATTEMPTS_ATTR;
+    public Set<String> getAccountLockout(int invalidCount, long lastInvalidAt) throws Exception {
+
+        AccountLockout accountLockout = new AccountLockout();
+        accountLockout.setInvalidCount(invalidCount);
+        accountLockout.setLastInvalidAt(lastInvalidAt);
+
+        return ImmutableSet.of(JsonBuilder.getJsonBuilder().writeValueAsString(accountLockout));
     }
-
 }

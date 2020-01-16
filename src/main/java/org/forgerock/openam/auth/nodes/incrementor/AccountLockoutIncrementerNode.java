@@ -75,8 +75,8 @@ public class AccountLockoutIncrementerNode extends SingleOutcomeNode {
     public interface Config extends AccountLockoutConfig {
 
         @Attribute(order = 200)
-        default int failureInterval() {
-            return 1800;
+        default long failureInterval() {
+            return DEFAULT_FAILURE_INTERVAL;
         }
     }
 

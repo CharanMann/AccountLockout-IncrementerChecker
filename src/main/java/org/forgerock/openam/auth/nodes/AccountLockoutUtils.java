@@ -41,7 +41,6 @@ import static org.forgerock.openam.auth.node.api.SharedStateConstants.USERNAME;
 public class AccountLockoutUtils {
 
     private final CoreWrapper coreWrapper;
-
     private final ObjectMapper jacksonObjectMapper = JsonBuilder.getJsonBuilder();
 
 
@@ -74,8 +73,8 @@ public class AccountLockoutUtils {
         return coreWrapper.getIdentity(username, realm);
     }
 
-    public boolean isWithinFailureDuration(AccountLockout accountLockout, int lockoutDuration) {
-        long startOfLockoutDuration = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(lockoutDuration);
+    public boolean isWithinFailureDuration(AccountLockout accountLockout, long failureDuration) {
+        long startOfLockoutDuration = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(failureDuration);
 
         // If this is first account lockout attempt, then time comparison is not required
         if (accountLockout.getInvalidCount() == 0) {
