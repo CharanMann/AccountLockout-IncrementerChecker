@@ -65,6 +65,8 @@ public class AccountLockoutCheckerDecisionNode implements Node {
     public Action process(TreeContext context) throws NodeProcessException {
         try {
             AccountLockout accountLockout = utils.getAccountLockoutData(context, config.invalidAttemptsAttribute());
+            logger.debug("[AccountLockoutCheckerDecisionNode]: Retrieved Invalid Attempts Attribute: " + accountLockout);
+
             String outcome = isLockedOut(accountLockout) ? LOCKED_OUTCOME : UNLOCKED_OUTCOME;
 
             ResourceBundle bundle = context.request.locales.getBundleInPreferredLocale(BUNDLE, getClass().getClassLoader());
@@ -73,23 +75,27 @@ public class AccountLockoutCheckerDecisionNode implements Node {
             // Update shared failure message
             if (outcome.equals(LOCKED_OUTCOME)) {
                 // reset failed attempts if account is locked
-                logger.debug("Account is locked, Resetting failed attempts counter");
-                utils.setAccountLockoutData(context, new AccountLockout(), config.invalidAttemptsAttribute());
+                logger.debug("[AccountLockoutCheckerDecisionNode]: Account is locked, Resetting failed attempts counter");
+
+                accountLockout = new AccountLockout();
+                logger.debug("[AccountLockoutCheckerDecisionNode]: Updating Invalid Attempts Attribute: " + accountLockout);
+                utils.setAccountLockoutData(context, accountLockout, config.invalidAttemptsAttribute());
 
                 // Set shared failure message
                 newSharedState.put(config.failureMessageAttr(), bundle.getString(ACCOUNT_LOCKED_MSG_KEY));
             } else if (outcome.equals(UNLOCKED_OUTCOME)) {
+                logger.debug("[AccountLockoutCheckerDecisionNode]: Account is still not locked");
 
                 // Set warning message if warn counter has reached
                 if (accountLockout.getInvalidCount() >= config.warnCount()) {
 
+                    logger.debug("[AccountLockoutCheckerDecisionNode]: Warning counter has reached");
                     // Set shared failure message, replace placeholder with attempts left
                     String message = MessageFormat.format(bundle.getString(ACCOUNT_LOCKED_WARNING_MSG_KEY), (config.lockoutCount() - accountLockout.getInvalidCount()));
                     newSharedState.put(config.failureMessageAttr(), message);
                 }
             }
 
-            logger.debug("one time password has been generated successfully");
             return Action.goTo(outcome).replaceSharedState(newSharedState).build();
 
         } catch (Exception e) {

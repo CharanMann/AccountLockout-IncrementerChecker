@@ -67,4 +67,11 @@ public class AccountLockout {
         return Objects.hash(invalidCount, lastInvalidAt);
     }
 
+    @Override
+    public String toString() {
+        return "AccountLockout {" +
+                "invalidCount=" + invalidCount +
+                ", lastInvalidAt=" + lastInvalidAt +
+                '}';
+    }
 }

@@ -51,12 +51,17 @@ public class AccountLockoutIncrementerNode extends SingleOutcomeNode {
     public Action process(TreeContext context) throws NodeProcessException {
         try {
             AccountLockout accountLockout = utils.getAccountLockoutData(context, config.invalidAttemptsAttribute());
+            logger.debug("[AccountLockoutIncrementerNode]: Retrieved Invalid Attempts Attribute: " + accountLockout);
+
             int attempts = utils.isWithinFailureDuration(accountLockout, config.failureInterval())
                     ? accountLockout.getInvalidCount() + 1
                     : 1;
+
+            logger.debug("[AccountLockoutIncrementerNode]: Current Invalid Attempts Attribute: " + attempts);
             accountLockout.setInvalidCount(attempts);
             accountLockout.setLastInvalidAt(System.currentTimeMillis());
 
+            logger.debug("[AccountLockoutIncrementerNode]: Updating Invalid Attempts Attribute: " + accountLockout);
             utils.setAccountLockoutData(context, accountLockout, config.invalidAttemptsAttribute());
             return goToNext().build();
         } catch (Exception e) {
