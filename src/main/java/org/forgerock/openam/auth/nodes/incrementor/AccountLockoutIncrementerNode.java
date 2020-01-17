@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 
 /**
- * A node which contributes a configurable set of properties to be added to the user's session, if/when it is created.
+ * A node which persists failed authentication attempts in user's profile
  */
 @Node.Metadata(outcomeProvider = SingleOutcomeNode.OutcomeProvider.class,
         configClass = AccountLockoutIncrementerNode.Config.class)

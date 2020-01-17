@@ -38,6 +38,9 @@ import java.util.concurrent.TimeUnit;
 import static org.forgerock.openam.auth.node.api.SharedStateConstants.REALM;
 import static org.forgerock.openam.auth.node.api.SharedStateConstants.USERNAME;
 
+/**
+ * General utils
+ */
 public class AccountLockoutUtils {
 
     private final CoreWrapper coreWrapper;
@@ -49,6 +52,16 @@ public class AccountLockoutUtils {
         this.coreWrapper = coreWrapper;
     }
 
+    /**
+     * Get Account lockout data from user profile
+     *
+     * @param context
+     * @param invalidAttemptsAttribute
+     * @return
+     * @throws IdRepoException
+     * @throws SSOException
+     * @throws IOException
+     */
     public AccountLockout getAccountLockoutData(TreeContext context, String invalidAttemptsAttribute) throws IdRepoException, SSOException, IOException {
         AMIdentity userIdentity = getUserIdentity(context);
 
@@ -60,6 +73,16 @@ public class AccountLockoutUtils {
         return attributes.isEmpty() ? new AccountLockout() : jacksonObjectMapper.readValue(attributes.iterator().next(), AccountLockout.class);
     }
 
+    /**
+     * Sets Account lockout data in user profile
+     *
+     * @param context
+     * @param accountLockout
+     * @param invalidAttemptsAttribute
+     * @throws IdRepoException
+     * @throws SSOException
+     * @throws JsonProcessingException
+     */
     public void setAccountLockoutData(TreeContext context, AccountLockout accountLockout, String invalidAttemptsAttribute) throws IdRepoException, SSOException, JsonProcessingException {
 
         AMIdentity userIdentity = getUserIdentity(context);
@@ -73,6 +96,13 @@ public class AccountLockoutUtils {
         return coreWrapper.getIdentity(username, realm);
     }
 
+    /**
+     * Checks if invalid attempt is within failure window
+     *
+     * @param accountLockout
+     * @param failureDuration
+     * @return
+     */
     public boolean isWithinFailureDuration(AccountLockout accountLockout, long failureDuration) {
         long startOfLockoutDuration = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(failureDuration);
 

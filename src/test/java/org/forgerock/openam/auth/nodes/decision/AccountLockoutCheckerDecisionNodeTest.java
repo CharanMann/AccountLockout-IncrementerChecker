@@ -24,7 +24,6 @@ import org.forgerock.json.JsonValue;
 import org.forgerock.openam.auth.node.api.Action;
 import org.forgerock.openam.auth.node.api.ExternalRequestContext;
 import org.forgerock.openam.auth.node.api.TreeContext;
-import org.forgerock.openam.auth.nodes.AccountLockoutConfig;
 import org.forgerock.openam.auth.nodes.AccountLockoutTestUtils;
 import org.forgerock.openam.auth.nodes.AccountLockoutUtils;
 import org.forgerock.openam.auth.nodes.model.AccountLockout;
@@ -39,10 +38,13 @@ import java.util.concurrent.TimeUnit;
 
 import static org.forgerock.openam.auth.node.api.SharedStateConstants.REALM;
 import static org.forgerock.openam.auth.node.api.SharedStateConstants.USERNAME;
+import static org.forgerock.openam.auth.nodes.AccountLockoutConfig.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.forgerock.openam.auth.nodes.AccountLockoutConfig.*;
 
+/**
+ * JUnit tests for @{@link AccountLockoutCheckerDecisionNode}
+ */
 public class AccountLockoutCheckerDecisionNodeTest {
     private final CoreWrapper mockCoreWrapper = mock(CoreWrapper.class);
     private final AMIdentity mockIdentity = mock(AMIdentity.class);
@@ -93,7 +95,7 @@ public class AccountLockoutCheckerDecisionNodeTest {
             return null;
         }).when(mockIdentity).setAttributes(anyMap());
 
-        assertEquals(AccountLockoutCheckerDecisionNode.LOCKED_OUTCOME,  node(DEFAULT_INVALID_ATTEMPTS_ATTR,
+        assertEquals(AccountLockoutCheckerDecisionNode.LOCKED_OUTCOME, node(DEFAULT_INVALID_ATTEMPTS_ATTR,
                 DEFAULT_LOCKOUT_COUNT, DEFAULT_WARN_COUNT, DEFAULT_FAILURE_MESSAGE_ATTR).process(mockContext).outcome);
     }
 

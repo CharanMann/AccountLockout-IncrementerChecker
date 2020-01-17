@@ -20,6 +20,9 @@ package org.forgerock.openam.auth.nodes.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * JSON builder
+ */
 public class JsonBuilder {
 
     private final static ObjectMapper jacksonObjectMapper = new ObjectMapper();

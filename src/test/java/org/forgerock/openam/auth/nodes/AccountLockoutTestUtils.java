@@ -24,6 +24,9 @@ import org.forgerock.openam.auth.nodes.model.JsonBuilder;
 
 import java.util.Set;
 
+/**
+ * Test utils
+ */
 public class AccountLockoutTestUtils {
 
     public Set<String> getAccountLockout(int invalidCount, long lastInvalidAt) throws Exception {

@@ -44,6 +44,9 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+/**
+ * JUnit tests for @{@link AccountLockoutIncrementerNode}
+ */
 public class AccountLockoutIncrementerNodeTest {
     private final CoreWrapper mockCoreWrapper = mock(CoreWrapper.class);
     private final AMIdentity mockIdentity = mock(AMIdentity.class);

@@ -38,7 +38,9 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
+/**
+ * This returns unlocked or locked based on invalid attempts. Also updates shared message state with appropriate failure message.
+ */
 @Node.Metadata(outcomeProvider = AccountLockoutCheckerDecisionNode.OutcomeProvider.class,
         configClass = AccountLockoutCheckerDecisionNode.Config.class)
 public class AccountLockoutCheckerDecisionNode implements Node {

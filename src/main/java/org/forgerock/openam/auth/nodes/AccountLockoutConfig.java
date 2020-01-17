@@ -20,6 +20,9 @@ package org.forgerock.openam.auth.nodes;
 
 import org.forgerock.openam.annotations.sm.Attribute;
 
+/**
+ * Common interface for Node configurations
+ */
 public interface AccountLockoutConfig {
 
     String DEFAULT_INVALID_ATTEMPTS_ATTR = "sunAMAuthInvalidAttemptsData";

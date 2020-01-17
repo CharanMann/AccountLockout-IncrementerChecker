@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * Core nodes installed by default with no engine dependencies.
+ * Node plugin for @{@link AccountLockoutIncrementerNode}
  */
 public class AccountLockoutIncrementerNodePlugin extends AbstractNodeAmPlugin {
 
