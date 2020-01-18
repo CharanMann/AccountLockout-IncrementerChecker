@@ -18,15 +18,13 @@
 An Account Lockout incrementer and checker nodes for ForgeRock's [Identity Platform][forgerock_platform] 6.5 and above. 
 These nodes persists failed authentication attempts in JSON format, provides failure messages(warning and account lockout failures) as shared state and checks if account is locked or not. 
 
-## Components
-
-Comes with 2 nodes:
-* **AccountLockoutIncrementerNode**: A node which persists failed authentication attempts in user's profile in JSON format. Also provides failure duration window for failed authentications. 
+**NODE DETAILS**
+* **AccountLockoutIncrementerNode**: A node which persists failed authentication attempts in user's profile in JSON format `{"invalidCount":2,"lastInvalidAt":1579382470795}`. Also provides failure duration window for failed authentications. 
 * **AccountLockoutCheckerDecisionNode**:  This node returns unlocked or locked based on invalid attempts. Also updates shared message state with appropriate failure message such as warning and account lockout failures messages. 
 
 Copy the .jar file from the ../target directory into the ../web-container/webapps/openam/WEB-INF/lib directory where AM is deployed.  Restart the web container to pick up the new node.  The nodes will then appear in the authentication trees components palette.
 
-**USAGE**
+##USAGE
 
 The code in this repository has binary dependencies that live in the ForgeRock maven repository. Maven can be configured to authenticate to this repository by following the following [ForgeRock Knowledge Base Article](https://backstage.forgerock.com/knowledge/kb/article/a74096897).
 
@@ -76,7 +74,7 @@ The code in this repository has binary dependencies that live in the ForgeRock m
                 "input": [
                     {
                         "name": "IDToken2",
-                        "value": "dfdsfsdf"
+                        "value": "invalidPassword123131"
                     }
                 ],
                 "_id": 1
@@ -87,7 +85,7 @@ The code in this repository has binary dependencies that live in the ForgeRock m
     {"code":401,"reason":"Unauthorized","message":"Login failure"}
 ```
 
-2. Authentication failure till warning counter
+2. Authentication failure when warning counter is reached 
 ```
    curl --location --request POST 'http://am651.example.com:8086/am/json/realms/root/realms/employees/authenticate?authIndexType=service&authIndexValue=AccountLockout' \
     --header 'Content-Type: application/json' \
@@ -109,7 +107,7 @@ The code in this repository has binary dependencies that live in the ForgeRock m
     }
 ```
 
-3. Authentication failure till account is locked
+3. Authentication failure when account is locked
 ```
    curl --location --request POST 'http://am651.example.com:8086/am/json/realms/root/realms/employees/authenticate?authIndexType=service&authIndexValue=AccountLockout' \
     --header 'Content-Type: application/json' \
