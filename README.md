@@ -7,11 +7,22 @@ These nodes persists failed authentication attempts in JSON format, provides fai
 * **AccountLockoutIncrementerNode**: A node which persists failed authentication attempts in user's profile in JSON format `{"invalidCount":2,"lastInvalidAt":1579382470795}`. Also provides failure duration window for failed authentications. 
 * **AccountLockoutCheckerDecisionNode**:  This node returns unlocked or locked based on invalid attempts. Also updates shared message state with appropriate failure message such as warning and account lockout failures messages. 
 
-Copy the .jar file from the ../target directory into the ../web-container/webapps/openam/WEB-INF/lib directory where AM is deployed.  Restart the web container to pick up the new node.  The nodes will then appear in the authentication trees components palette.
-
 ## USAGE
 
-The code in this repository has binary dependencies that live in the ForgeRock maven repository. Maven can be configured to authenticate to this repository by following the following [ForgeRock Knowledge Base Article](https://backstage.forgerock.com/knowledge/kb/article/a74096897).
+Pre-requisites :
+================
+* Versions used for this project: AM 6.5.1, DS 6.5.x 
+1. AM has been installed and configured.
+2. Maven has been installed and configured. The code in this repository has binary dependencies that live in the ForgeRock maven repository. Maven can be configured to authenticate to this repository by following the following *[ForgeRock Knowledge Base Article.](https://backstage.forgerock.com/knowledge/kb/article/a74096897)*
+
+AM Configuration:
+=====================
+1. Build custom authentication node by running "mvn clean install" in the directory containing the pom.xml 
+2. Copy the custom authentication node .jar file to WEB-INF/lib/ where AM is deployed. Refer instructions: *[Building and Installing Authentication Nodes](https://backstage.forgerock.com/docs/am/6.5/auth-nodes/#build-install-nodes)*
+3. Restart the web container to pick up the new node. The node will then appear in the authentication trees components palette.
+4. Create a new Authentication tree: AccountLockoutTree 
+5. Add required nodes in this tree, include "Account Lockout Incrementer Node" and "Account Lockout Checker Decision Node" nodes
+6. Configure these nodes and corresponding outcomes
 
 **Account Lockout tree**
 
