@@ -1,6 +1,7 @@
 # AccountLockout-IncrementerChecker
 
-An Account Lockout incrementer and checker nodes for ForgeRock's [Identity Platform][forgerock_platform] 6.5 and above. 
+An Account Lockout incrementer and checker nodes for ForgeRock's Identity Platform 6.5 and above. 
+These nodes are extension of existing *[Temporary Account Lockout Auth Tree Node](https://backstage.forgerock.com/marketplace/api/catalog/entries/AWnj3a59wV4L_HoR3GIG)*, which provides temporary lockout functionality. 
 These nodes persists failed authentication attempts in JSON format, provides failure messages(warning and account lockout failures) as shared state and checks if account is locked or not. 
 
 ## NODE DETAILS
