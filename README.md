@@ -9,19 +9,17 @@ These nodes persists failed authentication attempts in JSON format, provides fai
 
 ## USAGE
 
-Pre-requisites :
-================
+### Pre-requisites
 * Versions used for this project: AM 6.5.1, DS 6.5.x 
 1. AM has been installed and configured.
 2. Maven has been installed and configured. The code in this repository has binary dependencies that live in the ForgeRock maven repository. Maven can be configured to authenticate to this repository by following the following *[ForgeRock Knowledge Base Article.](https://backstage.forgerock.com/knowledge/kb/article/a74096897)*
 
-AM Configuration:
-=====================
+### AM Configuration
 1. Build custom authentication node by running "mvn clean install" in the directory containing the pom.xml 
 2. Copy the custom authentication node .jar file to WEB-INF/lib/ where AM is deployed. Refer instructions: *[Building and Installing Authentication Nodes](https://backstage.forgerock.com/docs/am/6.5/auth-nodes/#build-install-nodes)*
 3. Restart the web container to pick up the new node. The node will then appear in the authentication trees components palette.
 4. Create a new Authentication tree: AccountLockoutTree 
-5. Add required nodes in this tree, include "Account Lockout Incrementer Node" and "Account Lockout Checker Decision Node" nodes
+5. Add required nodes in this tree, include **Account Lockout Incrementer Node** and **Account Lockout Checker Decision Node** nodes
 6. Configure these nodes and corresponding outcomes
 
 **Account Lockout tree**
