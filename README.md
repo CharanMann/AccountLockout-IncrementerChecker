@@ -1,24 +1,9 @@
-<!--
- * The contents of this file are subject to the terms of the Common Development and
- * Distribution License (the License). You may not use this file except in compliance with the
- * License.
- *
- * You can obtain a copy of the License at legal/CDDLv1.0.txt. See the License for the
- * specific language governing permission and limitations under the License.
- *
- * When distributing Covered Software, include this CDDL Header Notice in each file and include
- * the License file at legal/CDDLv1.0.txt. If applicable, add the following below the CDDL
- * Header, with the fields enclosed by brackets [] replaced by your own identifying
- * information: "Portions copyright [year] [name of copyright owner]".
- *
- * Copyright 2020 ForgeRock AS.
--->
 # AccountLockout-IncrementerChecker
 
 An Account Lockout incrementer and checker nodes for ForgeRock's [Identity Platform][forgerock_platform] 6.5 and above. 
 These nodes persists failed authentication attempts in JSON format, provides failure messages(warning and account lockout failures) as shared state and checks if account is locked or not. 
 
-**NODE DETAILS**
+## NODE DETAILS
 * **AccountLockoutIncrementerNode**: A node which persists failed authentication attempts in user's profile in JSON format `{"invalidCount":2,"lastInvalidAt":1579382470795}`. Also provides failure duration window for failed authentications. 
 * **AccountLockoutCheckerDecisionNode**:  This node returns unlocked or locked based on invalid attempts. Also updates shared message state with appropriate failure message such as warning and account lockout failures messages. 
 
@@ -129,13 +114,12 @@ The code in this repository has binary dependencies that live in the ForgeRock m
     }
 ```
 
+## DISCLAIMER
 
-
-
-The sample code described herein is provided on an "as is" basis, without warranty of any kind, to the fullest extent permitted by law. ForgeRock does not warrant or guarantee the individual success developers may have in implementing the sample code on their development platforms or in production configurations.
-
-ForgeRock does not warrant, guarantee or make any representations regarding the use, results of use, accuracy, timeliness or completeness of any data or information relating to the sample code. ForgeRock disclaims all warranties, expressed or implied, and in particular, disclaims all warranties of merchantability, and warranties related to the code, or any service or software related thereto.
-
-ForgeRock shall not be liable for any direct, indirect or consequential damages or costs of any type arising out of any action taken by you or others related to the sample code.
-
-[forgerock_platform]: https://www.forgerock.com/platform/  
+Any sample code, scripts,connectors, or other materials (collectively, “Sample Code”) provided by ForgeRock in connection with ForgeRock’s performance 
+of the Deployment Support Services may be used by Customer solely for purposes of Customer exercising its license to the ForgeRock Software under this 
+Addendum and subject to all restrictions herein (“Purpose”). Unless otherwise specified by ForgeRock, any Sample Code provided by ForgeRock to Customer 
+in source form as part of the Deployment Support Services may be further modified by Customer as required for the Purpose. Any Sample Code provided by 
+ForgeRock under open source license terms will remain subject to the open source license terms under which it is provided. Customer shall not use or 
+combine any open source software with ForgeRock Software in any manner which would subject any ForgeRock Software to any open source license terms. 
+For the avoidance of doubt, any Sample Code provided hereunder is expressly excluded from ForgeRock’s indemnity or support obligations.
