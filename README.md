@@ -126,10 +126,13 @@ These nodes persists failed authentication attempts in JSON format, provides fai
 
 ## DISCLAIMER
 
-Any sample code, scripts,connectors, or other materials (collectively, “Sample Code”) provided by ForgeRock in connection with ForgeRock’s performance 
-of the Deployment Support Services may be used by Customer solely for purposes of Customer exercising its license to the ForgeRock Software under this 
-Addendum and subject to all restrictions herein (“Purpose”). Unless otherwise specified by ForgeRock, any Sample Code provided by ForgeRock to Customer 
-in source form as part of the Deployment Support Services may be further modified by Customer as required for the Purpose. Any Sample Code provided by 
-ForgeRock under open source license terms will remain subject to the open source license terms under which it is provided. Customer shall not use or 
-combine any open source software with ForgeRock Software in any manner which would subject any ForgeRock Software to any open source license terms. 
-For the avoidance of doubt, any Sample Code provided hereunder is expressly excluded from ForgeRock’s indemnity or support obligations.
+The sample code described herein is provided on an "as is"; basis, without warranty of any kind, to the fullest extent permitted by law.
+ForgeRock does not warrant or guarantee the individual success developers may have in implementing the sample code on their development platforms
+or in production configurations.
+
+ForgeRock does not warrant, guarantee or make any representations regarding the use, results of use, accuracy, timeliness or completeness of any data 
+or information relating to the sample code. ForgeRock disclaims all warranties, expressed or implied, and in particular, disclaims all warranties of 
+merchantability, and warranties related to the code, or any service or software related thereto.
+
+ForgeRock shall not be liable for any direct, indirect or consequential damages or costs of any type arising out of any action taken by you or others 
+related to the sample code.
