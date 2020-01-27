@@ -54,7 +54,7 @@ public class AccountLockoutIncrementerNode extends SingleOutcomeNode {
             logger.debug("[AccountLockoutIncrementerNode]: Retrieved Invalid Attempts Attribute: " + accountLockout);
 
             int attempts = utils.isWithinFailureDuration(accountLockout, config.failureInterval())
-                    ? accountLockout.getInvalidCount() + 1
+                    ? Math.addExact(accountLockout.getInvalidCount() , 1)
                     : 1;
 
             logger.debug("[AccountLockoutIncrementerNode]: Current Invalid Attempts Attribute: " + attempts);
